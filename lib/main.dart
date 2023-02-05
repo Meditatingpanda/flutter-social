@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shoppingapp/screens/home_screen.dart';
 import 'package:shoppingapp/screens/login_screen.dart';
+import 'package:shoppingapp/screens/profile_screen.dart';
+import 'package:shoppingapp/screens/register_screen.dart';
+import 'package:shoppingapp/utils/routes.dart';
 
 void main() => runApp(const MyApp());
 
@@ -13,16 +15,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         themeMode: ThemeMode.light,
         theme: ThemeData(
-          primarySwatch: Colors.cyan,
-         
+          primarySwatch: Colors.lightBlue,
         ),
         darkTheme: ThemeData(
           brightness: Brightness.dark,
         ),
+        initialRoute: MyRoutes.loginRoute,
         routes: {
-          "/": (context) => const Login(),
-          "/home": (context) => const Home(),
-          "/login": (context) => const Login(),
+          MyRoutes.loginRoute: (context) => const Login(),
+          MyRoutes.homeRoute: (context) => const Home(),
+          MyRoutes.registerRoute: (context) => const Register(),
+          MyRoutes.profileRoute: (context) => const Profile(),
         });
   }
 }
