@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shoppingapp/utils/routes.dart';
+import 'package:shoppingapp/screens/home_screen.dart';
+import 'package:shoppingapp/screens/register_screen.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,7 +20,8 @@ class _LoginState extends State<Login> {
         changeButton = true;
       });
       await Future.delayed(const Duration(milliseconds: 1000));
-      await Navigator.pushNamed(context, MyRoutes.homeRoute);
+      await Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Home()));
       setState(() {
         changeButton = false;
       });
@@ -134,7 +136,10 @@ class _LoginState extends State<Login> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, MyRoutes.registerRoute);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Register()));
                       },
                       child: const Text(
                         'New User? Register',

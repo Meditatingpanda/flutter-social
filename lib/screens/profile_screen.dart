@@ -6,132 +6,73 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50.0),
-        child: AppBar(
-          title: const Text("Profile"),
-          centerTitle: true,
-        ),
-      ),
-      body: Stack(
-        alignment: Alignment.topLeft,
-        children: <Widget>[
-          // background image and bottom contents
-          Column(
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          body: Stack(
+            alignment: Alignment.topLeft,
             children: <Widget>[
-              SizedBox(
-                height: 200.0,
-                // color: Colors.orange,
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/cat.png',
-                    fit: BoxFit.cover,
+              // background image and bottom contents
+
+              Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 200.0,
+                    // color: Colors.orange,
+                    child: Center(
+                      child: Image.asset(
+                        'assets/images/cat.png',
+                        fit: BoxFit.cover,
+                        height: 200,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
                     height: 200,
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 200,
-              ),
-              Expanded(
-                  child: SingleChildScrollView(
-                      child: Column(
-                children: const [
-                  Tweet(
-                    avatar:
-                        'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
-                    username: 'Flutter en Español',
-                    name: 'EsFlutter',
-                    timeAgo: '12m',
-                    text: 'Comunidad Flutter de habla hispana!',
-                    comments: '46',
-                    retweets: '4K',
-                    favorites: '17K',
-                  ),
-                  SizedBox(height: 10),
-                  Tweet(
-                    avatar:
-                        'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
-                    username: 'Flutter en Español',
-                    name: 'EsFlutter',
-                    timeAgo: '12m',
-                    text: 'Comunidad Flutter de habla hispana!',
-                    comments: '46',
-                    retweets: '4K',
-                    favorites: '17K',
-                  ),
-                  SizedBox(height: 10),
-                  Tweet(
-                    avatar:
-                        'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
-                    username: 'Flutter en Español',
-                    name: 'EsFlutter',
-                    timeAgo: '12m',
-                    text: 'Comunidad Flutter de habla hispana!',
-                    comments: '46',
-                    retweets: '4K',
-                    favorites: '17K',
-                  ),
-                  SizedBox(height: 10),
-                  Tweet(
-                    avatar:
-                        'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
-                    username: 'Flutter en Español',
-                    name: 'EsFlutter',
-                    timeAgo: '12m',
-                    text: 'Comunidad Flutter de habla hispana!',
-                    comments: '46',
-                    retweets: '4K',
-                    favorites: '17K',
-                  ),
-                  SizedBox(height: 10),
-                  Tweet(
-                    avatar:
-                        'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
-                    username: 'Flutter en Español',
-                    name: 'EsFlutter',
-                    timeAgo: '12m',
-                    text: 'Comunidad Flutter de habla hispana!',
-                    comments: '46',
-                    retweets: '4K',
-                    favorites: '17K',
-                  ),
-                  SizedBox(height: 10),
-                  Tweet(
-                    avatar:
-                        'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
-                    username: 'Flutter en Español',
-                    name: 'EsFlutter',
-                    timeAgo: '12m',
-                    text: 'Comunidad Flutter de habla hispana!',
-                    comments: '46',
-                    retweets: '4K',
-                    favorites: '17K',
-                  ),
-                  SizedBox(height: 10),
-                  Tweet(
-                    avatar:
-                        'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
-                    username: 'Flutter en Español',
-                    name: 'EsFlutter',
-                    timeAgo: '12m',
-                    text: 'Comunidad Flutter de habla hispana!',
-                    comments: '46',
-                    retweets: '4K',
-                    favorites: '17K',
-                  ),
-                  SizedBox(height: 10),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return const Tweet(
+                          avatar:
+                              'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
+                          username: 'Gyana Ranjan',
+                          name: 'MeditatingPanda',
+                          timeAgo: '12m',
+                          text: 'Give Up on Your Dreams, and die',
+                          comments: '46',
+                          retweets: '4K',
+                          favorites: '17K',
+                        );
+                      },
+                    ),
+                  )
                 ],
-              )))
+              ),
+              // Profile image
+              Positioned(
+                top: 150.0, // (background container size) - (circle height / 2)
+                child: profileDetails(context),
+              ),
+              Positioned(
+                  top: 10,
+                  left: 10,
+                  child: CircleAvatar(
+                    radius: 20,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      color: Colors.black,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  )),
             ],
           ),
-          // Profile image
-          Positioned(
-            top: 150.0, // (background container size) - (circle height / 2)
-            child: profileDetails(context),
-          )
-        ],
+        ),
       ),
     );
   }
@@ -156,7 +97,7 @@ Widget profileDetails(BuildContext context) {
                 height: 80.0,
                 width: 80.0,
                 decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.black),
+                    shape: BoxShape.circle, color: Colors.lightBlue),
                 child: const Center(
                     child: CircleAvatar(
                   radius: 37.0,

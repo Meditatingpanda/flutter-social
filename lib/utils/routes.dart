@@ -6,4 +6,7 @@ class MyRoutes {
   static String resetPasswordRoute = '/resetPassword';
   static String profileRoute = '/profile';
   static String editProfileRoute = '/editProfile';
+  static String followersRoute = '/followers';
+  static String followingsRoute = '/followings';
+  static String getStartedRoute = '/getStarted';
 }

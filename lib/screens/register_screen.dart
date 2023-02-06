@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoppingapp/utils/routes.dart';
+import 'package:shoppingapp/screens/login_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Register extends StatefulWidget {
@@ -140,7 +140,10 @@ class _RegisterState extends State<Register> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, MyRoutes.loginRoute);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Login()));
                     },
                     child: const Text(
                       'Already have an account? Login',

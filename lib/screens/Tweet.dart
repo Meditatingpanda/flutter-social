@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shoppingapp/components/comment_drawer.dart';
+import 'package:shoppingapp/screens/profile_screen.dart';
 import 'package:shoppingapp/utils/routes.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -46,7 +47,8 @@ class Tweet extends StatelessWidget {
       child: IconButton(
         iconSize: 45,
         onPressed: () {
-          Navigator.pushNamed(context, MyRoutes.profileRoute);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Profile()));
         },
         icon: CircleAvatar(
           backgroundImage: NetworkImage(avatar),
@@ -74,6 +76,7 @@ class Tweet extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.only(right: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
           child: Text(
             username,
             style: const TextStyle(
@@ -89,14 +92,14 @@ class Tweet extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        IconButton(
-          icon: const Icon(
-            FontAwesomeIcons.angleDown,
-            size: 14.0,
-            color: Colors.grey,
-          ),
-          onPressed: () {},
-        ),
+        // IconButton(
+        //   icon: const Icon(
+        //     FontAwesomeIcons.angleDown,
+        //     size: 14.0,
+        //     color: Colors.grey,
+        //   ),
+        //   onPressed: () {},
+        // ),
       ],
     );
   }

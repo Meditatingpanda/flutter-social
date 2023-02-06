@@ -7,20 +7,38 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
     return Scaffold(
+        key: _drawerKey,
         appBar: AppBar(
+          elevation: 0.0,
           title: const Text(
             "Confesso",
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18, color: Colors.black),
           ),
-          backgroundColor: Colors.blue,
+          leadingWidth: 35,
+          leading: Container(
+            transform: Matrix4.translationValues(10, 0, 0),
+            height: 20.0,
+            width: 20.0,
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle, color: Colors.black),
+            child: Center(
+                child: InkWell(
+              onTap: () {
+                _drawerKey.currentState!.openDrawer();
+              },
+              child: const CircleAvatar(
+                radius: 15.0,
+                backgroundImage: AssetImage('assets/images/cat.png'),
+              ),
+            )),
+          ),
+          backgroundColor: Colors.white,
           actions: [
             IconButton(
+              color: Colors.black,
               icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.more_vert),
               onPressed: () {},
             ),
           ],

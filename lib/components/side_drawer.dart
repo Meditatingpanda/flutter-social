@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shoppingapp/utils/routes.dart';
+import 'package:shoppingapp/screens/followers_screen.dart';
+import 'package:shoppingapp/screens/following_screen.dart';
+import 'package:shoppingapp/screens/login_screen.dart';
+import 'package:shoppingapp/screens/profile_screen.dart';
+
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({super.key});
@@ -12,24 +16,24 @@ class SideDrawer extends StatelessWidget {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.cyan,
+              color: Colors.white,
             ), //BoxDecoration
             child: UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: Colors.cyan),
+              decoration: BoxDecoration(color: Colors.white),
               accountName: Text(
                 "Gyana Ranjan Panda",
-                style: TextStyle(fontSize: 18, color: Colors.white),
+                style: TextStyle(fontSize: 18, color: Colors.black),
               ),
               accountEmail: Text(
                 "grp.gyanaranjan@gmail.com",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
               ),
               currentAccountPictureSize: Size.square(50),
               currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.black,
                 child: Text(
                   "G",
-                  style: TextStyle(fontSize: 30.0, color: Colors.blue),
+                  style: TextStyle(fontSize: 30.0, color: Colors.white),
                 ), //Text
               ), //circleAvatar
             ), //UserAccountDrawerHeader
@@ -38,21 +42,24 @@ class SideDrawer extends StatelessWidget {
             leading: const Icon(Icons.person),
             title: const Text(' My Profile '),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Profile()));
             },
           ),
           ListTile(
             leading: const Icon(Icons.verified_user_sharp),
             title: const Text(' Followers '),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Followers()));
             },
           ),
           ListTile(
             leading: const Icon(Icons.workspace_premium),
             title: const Text(' Followings '),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Following()));
             },
           ),
 
@@ -60,7 +67,8 @@ class SideDrawer extends StatelessWidget {
             leading: const Icon(Icons.logout),
             title: const Text('LogOut'),
             onTap: () {
-              Navigator.pushNamed(context, MyRoutes.loginRoute);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Login()));
               //Navigator.pop(context);
             },
           ),
