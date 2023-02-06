@@ -1,6 +1,8 @@
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:shoppingapp/components/side_drawer.dart";
 import "package:shoppingapp/screens/Tweet.dart";
+import "package:shoppingapp/screens/new_post_screen.dart";
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -192,6 +194,18 @@ class Home extends StatelessWidget {
               ],
             ),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Add your onPressed code here!
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  fullscreenDialog: true,
+                  builder: (context) => const NewPost()),
+            );
+          },
+          child: const Icon(Icons.add),
         ),
         drawer: const SideDrawer());
   }

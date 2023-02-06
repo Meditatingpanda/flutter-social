@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:like_button/like_button.dart';
 import 'package:shoppingapp/components/comment_drawer.dart';
 import 'package:shoppingapp/screens/profile_screen.dart';
 import 'package:shoppingapp/utils/routes.dart';
@@ -136,25 +138,31 @@ class Tweet extends StatelessWidget {
         if (icon == FontAwesomeIcons.heart) {
           print('heart');
         } else if (icon == FontAwesomeIcons.comment) {
-          showModalBottomSheet<void>(
-            context: context,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0)),
-            ),
-            builder: (BuildContext context) {
-              return Container(
-                  height: 500,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0)),
-                  ),
-                  child: const Padding(
-                      padding: EdgeInsets.all(20.0), child: CommentDrawer()));
-            },
+          // showModalBottomSheet<void>(
+          //   context: context,
+          //   shape: const RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.only(
+          //         topLeft: Radius.circular(20.0),
+          //         topRight: Radius.circular(20.0)),
+          //   ),
+          //   builder: (BuildContext context) {
+          //     return Container(
+          //         height: 500,
+          //         decoration: const BoxDecoration(
+          //           color: Colors.white,
+          //           borderRadius: BorderRadius.only(
+          //               topLeft: Radius.circular(20.0),
+          //               topRight: Radius.circular(20.0)),
+          //         ),
+          //         child: const Padding(
+          //             padding: EdgeInsets.all(20.0), child: CommentDrawer()));
+          //   },
+          // );
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+                fullscreenDialog: true,
+                builder: (context) => const CommentDrawer()),
           );
         } else if (icon == FontAwesomeIcons.retweet) {
           print('retweet');
@@ -162,25 +170,30 @@ class Tweet extends StatelessWidget {
           print('Share');
         }
       },
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: 16.0,
-            color: Colors.black45,
-          ),
-          Container(
-            margin: const EdgeInsets.all(6.0),
-            child: Text(
-              text,
-              style: const TextStyle(
-                color: Colors.black45,
-                fontSize: 14.0,
-              ),
+      child: icon == FontAwesomeIcons.heart
+          ? const LikeButton(
+              size: 20,
+              likeCount: 69,
+            )
+          : Row(
+              children: [
+                Icon(
+                  icon,
+                  size: 16.0,
+                  color: Colors.black45,
+                ),
+                Container(
+                  margin: const EdgeInsets.all(6.0),
+                  child: Text(
+                    text,
+                    style: const TextStyle(
+                      color: Colors.black45,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

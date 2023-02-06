@@ -12,6 +12,8 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   String username = "";
   String password = "";
+  String email = "";
+  String confirmpassword = "";
   bool changeButton = false;
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,7 @@ class _RegisterState extends State<Register> {
                       labelText: 'Email',
                     ),
                     onChanged: (value) => {
-                      username = value,
+                      email = value,
                       setState(() {}),
                     },
                   ),
@@ -94,7 +96,7 @@ class _RegisterState extends State<Register> {
                       labelText: 'Confirm Password',
                     ),
                     onChanged: (value) => {
-                      password = value,
+                      confirmpassword = value,
                       setState(() {}),
                     },
                   ),
@@ -106,6 +108,12 @@ class _RegisterState extends State<Register> {
                     onTap: () async {
                       setState(() {
                         changeButton = true;
+                      });
+                      print({
+                        'username': username,
+                        'email': email,
+                        'password': password,
+                        'confirmpassword': confirmpassword,
                       });
                       await Future.delayed(const Duration(milliseconds: 1000));
                       //Navigator.pushNamed(context, MyRoutes.homeRoute);
