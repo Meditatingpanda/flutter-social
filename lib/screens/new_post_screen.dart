@@ -23,15 +23,6 @@ class _NewPostState extends State<NewPost> {
         padding: const EdgeInsets.all(25.0),
         child: Column(
           children: [
-            const SizedBox(height: 15),
-            TextFormField(
-              minLines: 10,
-              maxLines: 100,
-              decoration: const InputDecoration(
-                hintText: 'What\'s on your mind?',
-              ),
-            ),
-            const SizedBox(height: 15),
             Row(
               children: const [
                 CircleAvatar(
@@ -43,6 +34,17 @@ class _NewPostState extends State<NewPost> {
                 Text('@meditatingpanda', style: TextStyle(color: Colors.grey))
               ],
             ),
+            const SizedBox(height: 15),
+            TextFormField(
+              minLines: 10,
+              autofocus: true,
+              maxLines: 30,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: 'What\'s on your mind?',
+              ),
+            ),
+            const SizedBox(height: 15),
             const SizedBox(height: 15),
             SizedBox(
               width: double.infinity,

@@ -4,8 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:shoppingapp/components/comment_drawer.dart';
 import 'package:shoppingapp/screens/profile_screen.dart';
-import 'package:shoppingapp/utils/routes.dart';
-import 'package:share_plus/share_plus.dart';
 
 class Tweet extends StatelessWidget {
   final String avatar;

@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shoppingapp/components/show_snackbar.dart';
 import 'package:shoppingapp/screens/login_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -10,16 +14,49 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  String username = "";
-  String password = "";
-  String email = "";
-  String confirmpassword = "";
+  final TextEditingController email = TextEditingController();
+  final TextEditingController username = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirmpassword = TextEditingController();
   bool changeButton = false;
+  Future register(String email, username, pass, context) async {
+    Map data = {
+      'email': email,
+      'username': username,
+      'password': pass,
+    };
+    // print(data);
+
+    String body = json.encode(data);
+    var url = Uri.parse('http://localhost:5500/api/auth/register');
+    var response = await http.post(
+      url,
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+    );
+    // print(response.body);
+    // print(response.statusCode);
+    if (response.statusCode == 200) {
+      //Or put here your next screen using Navigator.push() method
+      showSnackBar(context, 'Registration Successful', false);
+      await Future.delayed(const Duration(milliseconds: 2000));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Login()));
+    } else {
+      showSnackBar(context, 'Registration Failed', true);
+      // print('error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-        color: Colors.white,
-        child: Column(
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
@@ -27,11 +64,6 @@ class _RegisterState extends State<Register> {
               fit: BoxFit.cover,
               height: 120,
             ),
-
-            // Image.asset(
-            //   'assets/images/register.svg',
-            //   fit: BoxFit.cover,
-            // ),
             const SizedBox(
               height: 20,
             ),
@@ -63,20 +95,14 @@ class _RegisterState extends State<Register> {
                       hintText: 'Enter Username',
                       labelText: 'Username',
                     ),
-                    onChanged: (value) => {
-                      username = value,
-                      setState(() {}),
-                    },
+                    controller: username,
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
                       hintText: 'Enter Email',
                       labelText: 'Email',
                     ),
-                    onChanged: (value) => {
-                      email = value,
-                      setState(() {}),
-                    },
+                    controller: email,
                   ),
                   TextFormField(
                     obscureText: true,
@@ -84,10 +110,7 @@ class _RegisterState extends State<Register> {
                       hintText: 'Enter password',
                       labelText: 'Password',
                     ),
-                    onChanged: (value) => {
-                      password = value,
-                      setState(() {}),
-                    },
+                    controller: password,
                   ),
                   TextFormField(
                     obscureText: true,
@@ -95,10 +118,7 @@ class _RegisterState extends State<Register> {
                       hintText: 'Re-Enter password',
                       labelText: 'Confirm Password',
                     ),
-                    onChanged: (value) => {
-                      confirmpassword = value,
-                      setState(() {}),
-                    },
+                    controller: confirmpassword,
                   ),
                   const SizedBox(
                     height: 20,
@@ -109,12 +129,8 @@ class _RegisterState extends State<Register> {
                       setState(() {
                         changeButton = true;
                       });
-                      print({
-                        'username': username,
-                        'email': email,
-                        'password': password,
-                        'confirmpassword': confirmpassword,
-                      });
+                      register(
+                          email.text, username.text, password.text, context);
                       await Future.delayed(const Duration(milliseconds: 1000));
                       //Navigator.pushNamed(context, MyRoutes.homeRoute);
                       setState(() {
@@ -161,12 +177,11 @@ class _RegisterState extends State<Register> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
           ],
         ));
-    ;
   }
 }
