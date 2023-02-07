@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoppingapp/providers/home_provider.dart';
 import 'package:shoppingapp/screens/followers_screen.dart';
 import 'package:shoppingapp/screens/following_screen.dart';
 import 'package:shoppingapp/screens/get_started_screen.dart';
@@ -15,23 +17,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        themeMode: ThemeMode.light,
-        theme: ThemeData(
-          primarySwatch: Colors.lightBlue,
-        ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-        ),
-        initialRoute: MyRoutes.getStartedRoute,
-        routes: {
-          MyRoutes.getStartedRoute: (context) => const BackgroundVideo(),
-          MyRoutes.loginRoute: (context) => const Login(),
-          MyRoutes.registerRoute: (context) => const Register(),
-          MyRoutes.homeRoute: (context) => const Home(),
-          MyRoutes.profileRoute: (context) => const Profile(),
-          MyRoutes.followersRoute: (context) => const Followers(),
-          MyRoutes.followingsRoute: (context) => const Following(),
-        });
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => HomeProvider()),
+      ],
+      child: MaterialApp(
+          themeMode: ThemeMode.light,
+          theme: ThemeData(
+            primarySwatch: Colors.lightBlue,
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+          ),
+          initialRoute:  MyRoutes.loginRoute,
+          routes: {
+            MyRoutes.getStartedRoute: (context) => const BackgroundVideo(),
+            MyRoutes.loginRoute: (context) => const Login(),
+            MyRoutes.registerRoute: (context) => const Register(),
+            MyRoutes.homeRoute: (context) => const Home(),
+            MyRoutes.profileRoute: (context) => const Profile(),
+            MyRoutes.followersRoute: (context) => const Followers(),
+            MyRoutes.followingsRoute: (context) => const Following(),
+          }),
+    );
   }
 }
