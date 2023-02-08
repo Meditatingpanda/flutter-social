@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoppingapp/providers/home_provider.dart';
 
 class NewPost extends StatefulWidget {
   const NewPost({super.key});
@@ -10,6 +12,7 @@ class NewPost extends StatefulWidget {
 class _NewPostState extends State<NewPost> {
   @override
   Widget build(BuildContext context) {
+    final homeNotifier = Provider.of<HomeProvider>(context, listen: true);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -39,6 +42,9 @@ class _NewPostState extends State<NewPost> {
               minLines: 10,
               autofocus: true,
               maxLines: 30,
+              autocorrect: false,
+              
+              controller: homeNotifier.desc,
               decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintText: 'What\'s on your mind?',
@@ -50,7 +56,11 @@ class _NewPostState extends State<NewPost> {
               width: double.infinity,
               height: 40,
               child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    homeNotifier.createPost();
+
+                    Navigator.pop(context);
+                  },
                   child: const Text(
                     'Post',
                     style: TextStyle(

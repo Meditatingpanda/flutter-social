@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoppingapp/providers/home_provider.dart';
 import 'package:shoppingapp/screens/followers_screen.dart';
 import 'package:shoppingapp/screens/following_screen.dart';
 import 'package:shoppingapp/screens/login_screen.dart';
 import 'package:shoppingapp/screens/profile_screen.dart';
-
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final HomeProvider homeNotifier =
+        Provider.of<HomeProvider>(context, listen: true);
     return Drawer(
       child: ListView(
         padding: const EdgeInsets.all(0),
@@ -67,8 +70,7 @@ class SideDrawer extends StatelessWidget {
             leading: const Icon(Icons.logout),
             title: const Text('LogOut'),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Login()));
+              homeNotifier.logout(context);
               //Navigator.pop(context);
             },
           ),

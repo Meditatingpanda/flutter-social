@@ -36,7 +36,8 @@ class Profile extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: 10,
                       itemBuilder: (context, index) {
-                        return const Tweet(
+                        return  Tweet(
+                          index: index,
                           avatar:
                               'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
                           username: 'Gyana Ranjan',
@@ -45,7 +46,7 @@ class Profile extends StatelessWidget {
                           text: 'Give Up on Your Dreams, and die',
                           comments: '46',
                           retweets: '4K',
-                          favorites: '17K',
+                          favorites: 0,
                         );
                       },
                     ),

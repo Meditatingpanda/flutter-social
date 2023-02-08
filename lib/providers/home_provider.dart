@@ -1,23 +1,28 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingapp/api/api.dart';
 import 'package:shoppingapp/models/posts_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shoppingapp/screens/login_screen.dart';
 
 class HomeProvider with ChangeNotifier {
-  late List<PostsModel> posts;
+  List<PostsModel>? posts;
+  final TextEditingController desc = TextEditingController();
+  late  String currentUserId;
   final Map<String, dynamic> post = {
     "userId": "",
     "desc": "",
     "img": "",
   };
+  void setUserId(String userId) {
+    currentUserId = userId;
+  }
 
-  void fetchPosts() async {
+  Future fetchPosts() async {
     final pref = await SharedPreferences.getInstance();
     var userData = jsonDecode(pref.getString('User')!);
-
+    setUserId(userData["_id"]);
     final currentUser = {
       "userId": userData["_id"],
     };
@@ -30,16 +35,64 @@ class HomeProvider with ChangeNotifier {
     });
 
     posts = postsModelFromJson(res.body);
+    posts?.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     notifyListeners();
   }
 
-  void createPost() async {}
-  void likePost() async {}
+  void createPost() async {
+    final pref = await SharedPreferences.getInstance();
+    var userData = jsonDecode(pref.getString('User')!);
+
+    post["userId"] = userData["_id"];
+    post["desc"] = desc.text;
+    final uri = Uri.parse("${Api.BASE_URL}/posts");
+    var res = await http.post(uri,
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json",
+          "Access-Control-Allow-Origin": "https://confesso-2.web.app"
+        },
+        body: jsonEncode(post));
+    print(res.body);
+    fetchPosts();
+    desc.clear();
+  }
+
+  void likePost(int index) async {
+    final pref = await SharedPreferences.getInstance();
+    var userData = jsonDecode(pref.getString('User')!);
+
+    final currentUser = {
+      "userId": userData["_id"],
+    };
+    final uri = Uri.parse("${Api.BASE_URL}/posts/${posts![index].id}/like");
+    var res = await http.put(uri,
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json",
+          "Access-Control-Allow-Origin": "https://confesso-2.web.app"
+        },
+        body: jsonEncode(currentUser));
+    print(res.body);
+    fetchPosts();
+  }
+
+  bool checkIsLiked(int index) {
+    if (posts![index].likes.contains(currentUserId)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void fetchPostsUniversal() async {}
   void fetchPostsFollowing() async {}
   void fetchPostsFollowers() async {}
   void followUser() async {}
-  void logout() async {}
-  
-
+  void logout(context) async {
+    final pref = await SharedPreferences.getInstance();
+    pref.clear();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const Login()));
+  }
 }

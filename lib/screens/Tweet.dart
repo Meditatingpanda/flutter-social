@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:like_button/like_button.dart';
+import 'package:provider/provider.dart';
 import 'package:shoppingapp/components/comment_drawer.dart';
+import 'package:shoppingapp/providers/home_provider.dart';
 import 'package:shoppingapp/screens/profile_screen.dart';
 
 class Tweet extends StatelessWidget {
@@ -13,19 +15,21 @@ class Tweet extends StatelessWidget {
   final String text;
   final String comments;
   final String retweets;
-  final String favorites;
+  final int favorites;
+  final int index;
 
-  const Tweet(
-      {Key? key,
-      required this.avatar,
-      required this.username,
-      required this.name,
-      required this.timeAgo,
-      required this.text,
-      required this.comments,
-      required this.retweets,
-      required this.favorites})
-      : super(key: key);
+  const Tweet({
+    Key? key,
+    required this.avatar,
+    required this.username,
+    required this.name,
+    required this.timeAgo,
+    required this.text,
+    required this.comments,
+    required this.retweets,
+    required this.favorites,
+    required this.index,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -120,21 +124,22 @@ class Tweet extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          tweetIconButton(FontAwesomeIcons.comment, comments, context),
+          tweetIconButton(FontAwesomeIcons.comment, 243, context),
           // tweetIconButton(FontAwesomeIcons.retweet, retweets, context),
           tweetIconButton(FontAwesomeIcons.heart, favorites, context),
-          tweetIconButton(FontAwesomeIcons.share, '', context),
+          tweetIconButton(FontAwesomeIcons.share, 0, context),
         ],
       ),
     );
   }
 
-  Widget tweetIconButton(IconData icon, String text, BuildContext context) {
+  Widget tweetIconButton(IconData icon, int text, BuildContext context) {
+    final HomeProvider homeNotifier = Provider.of<HomeProvider>(context);
     return InkWell(
       onTap: () {
-        print(icon);
+        //print(icon);
         if (icon == FontAwesomeIcons.heart) {
-          print('heart');
+          //   print('heart');
         } else if (icon == FontAwesomeIcons.comment) {
           // showModalBottomSheet<void>(
           //   context: context,
@@ -156,6 +161,7 @@ class Tweet extends StatelessWidget {
           //             padding: EdgeInsets.all(20.0), child: CommentDrawer()));
           //   },
           // );
+
           Navigator.push(
             context,
             CupertinoPageRoute(
@@ -163,15 +169,20 @@ class Tweet extends StatelessWidget {
                 builder: (context) => const CommentDrawer()),
           );
         } else if (icon == FontAwesomeIcons.retweet) {
-          print('retweet');
+          // print('retweet');
         } else if (icon == FontAwesomeIcons.share) {
-          print('Share');
+          //  print('Share');
         }
       },
       child: icon == FontAwesomeIcons.heart
-          ? const LikeButton(
+          ? LikeButton(
               size: 20,
-              likeCount: 69,
+              isLiked: homeNotifier.checkIsLiked(index),
+              likeCount: text,
+              onTap: (isLiked) {
+                homeNotifier.likePost(index);
+                return Future.value(!isLiked);
+              },
             )
           : Row(
               children: [
@@ -180,16 +191,18 @@ class Tweet extends StatelessWidget {
                   size: 16.0,
                   color: Colors.black45,
                 ),
-                Container(
-                  margin: const EdgeInsets.all(6.0),
-                  child: Text(
-                    text,
-                    style: const TextStyle(
-                      color: Colors.black45,
-                      fontSize: 14.0,
-                    ),
-                  ),
-                ),
+                icon != FontAwesomeIcons.share
+                    ? Container(
+                        margin: const EdgeInsets.all(6.0),
+                        child: Text(
+                          text.toString(),
+                          style: const TextStyle(
+                            color: Colors.black45,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
     );
