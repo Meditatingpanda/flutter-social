@@ -203,16 +203,17 @@ Widget profileDetails(BuildContext context) {
           ),
           Row(children: [
             Row(
-              children: const [
-                Icon(
+              children:const [
+                 Icon(
                   Icons.calendar_month,
                   size: 15.0,
                 ),
-                SizedBox(
+                 SizedBox(
                   width: 5.0,
                 ),
-                Text('Joined April 2022',
-                    style: TextStyle(
+                Text(
+                    'Joined may 2021',
+                    style:  TextStyle(
                       fontSize: 13.0,
                       fontWeight: FontWeight.w300,
                     )),

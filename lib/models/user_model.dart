@@ -27,7 +27,7 @@ class UserModel {
     String email;
     String profilePicture;
     String coverPicture;
-    List<String> following;
+    List<dynamic> following;
     List<dynamic> followers;
     bool isAdmin;
     String desc;
@@ -39,7 +39,7 @@ class UserModel {
         email: json["email"],
         profilePicture: json["profilePicture"],
         coverPicture: json["coverPicture"],
-        following: List<String>.from(json["following"].map((x) => x)),
+        following: List<dynamic>.from(json["following"].map((x) => x)),
         followers: List<dynamic>.from(json["followers"].map((x) => x)),
         isAdmin: json["isAdmin"],
         desc: json["desc"],

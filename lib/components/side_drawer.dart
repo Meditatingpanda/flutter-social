@@ -44,8 +44,12 @@ class SideDrawer extends StatelessWidget {
             leading: const Icon(Icons.person),
             title: const Text(' My Profile '),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) =>  Profile()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Profile(
+                            profileId: homeNotifier.user?.id,
+                          )));
             },
           ),
           ListTile(
