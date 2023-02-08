@@ -4,12 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingapp/api/api.dart';
 import 'package:shoppingapp/models/posts_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shoppingapp/models/user_model.dart';
 import 'package:shoppingapp/screens/login_screen.dart';
 
 class HomeProvider with ChangeNotifier {
   List<PostsModel>? posts;
+  Map<UserModel, dynamic>? userData;
   final TextEditingController desc = TextEditingController();
-  late  String currentUserId;
+  late String currentUserId;
   final Map<String, dynamic> post = {
     "userId": "",
     "desc": "",
@@ -35,7 +37,8 @@ class HomeProvider with ChangeNotifier {
     });
 
     posts = postsModelFromJson(res.body);
-    posts?.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    posts!.sort((a, b) => b.createdAt.compareTo(a.createdAt) );
+
     notifyListeners();
   }
 
@@ -46,14 +49,14 @@ class HomeProvider with ChangeNotifier {
     post["userId"] = userData["_id"];
     post["desc"] = desc.text;
     final uri = Uri.parse("${Api.BASE_URL}/posts");
-    var res = await http.post(uri,
+    await http.post(uri,
         headers: {
           "Content-Type": "application/json",
           "accept": "application/json",
           "Access-Control-Allow-Origin": "https://confesso-2.web.app"
         },
         body: jsonEncode(post));
-    print(res.body);
+    // print(res.body);
     fetchPosts();
     desc.clear();
   }
@@ -66,14 +69,14 @@ class HomeProvider with ChangeNotifier {
       "userId": userData["_id"],
     };
     final uri = Uri.parse("${Api.BASE_URL}/posts/${posts![index].id}/like");
-    var res = await http.put(uri,
+    await http.put(uri,
         headers: {
           "Content-Type": "application/json",
           "accept": "application/json",
           "Access-Control-Allow-Origin": "https://confesso-2.web.app"
         },
         body: jsonEncode(currentUser));
-    print(res.body);
+    //print(res.body);
     fetchPosts();
   }
 
@@ -83,6 +86,17 @@ class HomeProvider with ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  Future fetchUserData(String userId) async {
+    final uri = Uri.parse("${Api.BASE_URL}/users/?userId=$userId");
+    var res = await http.get(uri, headers: {
+      "Content-Type": "application/json",
+      "accept": "application/json",
+      "Access-Control-Allow-Origin": "https://confesso-2.web.app"
+    });
+    print(res.body);
+    return userModelFromJson(res.body);
   }
 
   void fetchPostsUniversal() async {}

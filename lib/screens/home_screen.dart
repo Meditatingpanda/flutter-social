@@ -127,9 +127,11 @@ class _HomeState extends State<Home> {
                         itemBuilder: (context, index) {
                           return Tweet(
                             avatar:
-                                'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
-                            username: 'Gyana',
-                            name: 'meditatingpanda',
+                               homeNotifier.posts?[index].profilePic??'',
+                            username: homeNotifier.posts?[index].email ??
+                                'dummy name',
+                            name: homeNotifier.posts?[index].username ??
+                                'dummy name',
                             timeAgo: timeago.format(
                                 homeNotifier.posts?[index].createdAt ??
                                     DateTime.now()),
@@ -146,7 +148,7 @@ class _HomeState extends State<Home> {
             ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return  Tweet(
+                  return Tweet(
                     avatar:
                         'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/32b8f7d9-0d6c-4e2f-b737-eea02c841b00/deo8pg7-d9539697-f5a8-4e09-a5ff-e9b73f829512.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzMyYjhmN2Q5LTBkNmMtNGUyZi1iNzM3LWVlYTAyYzg0MWIwMFwvZGVvOHBnNy1kOTUzOTY5Ny1mNWE4LTRlMDktYTVmZi1lOWI3M2Y4Mjk1MTIucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.1Grgns0aCw7M8tX6Yq40-dPpxMvy5Ccp3O1w4suLv8U',
                     username: 'Madara',

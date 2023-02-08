@@ -18,6 +18,10 @@ class PostsModel {
         required this.createdAt,
         required this.updatedAt,
         required this.v,
+        required this.username,
+        required this.profilePic,
+        required this.email,
+        required this.coverPic,
     });
 
     String id;
@@ -28,6 +32,10 @@ class PostsModel {
     DateTime createdAt;
     DateTime updatedAt;
     int v;
+    String username;
+    String profilePic;
+    String email;
+    String coverPic;
 
     factory PostsModel.fromJson(Map<String, dynamic> json) => PostsModel(
         id: json["_id"],
@@ -38,6 +46,10 @@ class PostsModel {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
+        username: json["username"],
+        profilePic: json["profile_pic"],
+        email: json["email"],
+        coverPic: json["cover_pic"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -49,5 +61,9 @@ class PostsModel {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
+        "username": username,
+        "profile_pic": profilePic,
+        "email": email,
+        "cover_pic": coverPic,
     };
 }
