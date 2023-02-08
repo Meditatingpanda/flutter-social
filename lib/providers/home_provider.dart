@@ -4,12 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingapp/api/api.dart';
 import 'package:shoppingapp/models/posts_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shoppingapp/models/profile_model.dart';
 import 'package:shoppingapp/models/user_model.dart';
 import 'package:shoppingapp/screens/login_screen.dart';
 
 class HomeProvider with ChangeNotifier {
   List<PostsModel>? posts;
-  Map<UserModel, dynamic>? userData;
+  List<ProfileUserModel>? profilePosts;
+  UserModel? user;
   final TextEditingController desc = TextEditingController();
   late String currentUserId;
   final Map<String, dynamic> post = {
@@ -37,7 +39,7 @@ class HomeProvider with ChangeNotifier {
     });
 
     posts = postsModelFromJson(res.body);
-    posts!.sort((a, b) => b.createdAt.compareTo(a.createdAt) );
+    posts!.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
     notifyListeners();
   }
@@ -81,6 +83,7 @@ class HomeProvider with ChangeNotifier {
   }
 
   bool checkIsLiked(int index) {
+    print(index);
     if (posts![index].likes.contains(currentUserId)) {
       return true;
     } else {
@@ -95,8 +98,22 @@ class HomeProvider with ChangeNotifier {
       "accept": "application/json",
       "Access-Control-Allow-Origin": "https://confesso-2.web.app"
     });
-    print(res.body);
-    return userModelFromJson(res.body);
+    // print(res.body);
+    user = userModelFromJson(res.body);
+    notifyListeners();
+  }
+
+  Future fetchProfilePosts(String userId) async {
+    final uri = Uri.parse("${Api.BASE_URL}/posts/?userId=$userId");
+    var res = await http.get(uri, headers: {
+      "Content-Type": "application/json",
+      "accept": "application/json",
+      "Access-Control-Allow-Origin": "https://confesso-2.web.app"
+    });
+    // print(res.body);
+    profilePosts = profileUserModelFromJson(res.body);
+    profilePosts!.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    notifyListeners();
   }
 
   void fetchPostsUniversal() async {}

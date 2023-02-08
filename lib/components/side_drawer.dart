@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:shoppingapp/providers/home_provider.dart';
 import 'package:shoppingapp/screens/followers_screen.dart';
 import 'package:shoppingapp/screens/following_screen.dart';
-import 'package:shoppingapp/screens/login_screen.dart';
 import 'package:shoppingapp/screens/profile_screen.dart';
 
 class SideDrawer extends StatelessWidget {
@@ -17,28 +16,28 @@ class SideDrawer extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(0),
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
+          DrawerHeader(
+            decoration: const BoxDecoration(
               color: Colors.white,
             ), //BoxDecoration
             child: UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: Colors.white),
               accountName: Text(
-                "Gyana Ranjan Panda",
-                style: TextStyle(fontSize: 18, color: Colors.black),
+                homeNotifier.user!.username,
+                style: const TextStyle(fontSize: 18, color: Colors.black),
               ),
               accountEmail: Text(
-                "grp.gyanaranjan@gmail.com",
-                style: TextStyle(color: Colors.black),
+                homeNotifier.user!.email,
+                style: const TextStyle(color: Colors.black),
               ),
-              currentAccountPictureSize: Size.square(50),
+              currentAccountPictureSize: const Size.square(50),
               currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.black,
-                child: Text(
-                  "G",
-                  style: TextStyle(fontSize: 30.0, color: Colors.white),
-                ), //Text
-              ), //circleAvatar
+                  backgroundColor: Colors.black,
+                  child: Image.network(
+                    homeNotifier.user?.profilePicture ?? '',
+                    fit: BoxFit.contain,
+                  ) //Text
+                  ), //circleAvatar
             ), //UserAccountDrawerHeader
           ), //DrawerHeader
           ListTile(
@@ -46,7 +45,7 @@ class SideDrawer extends StatelessWidget {
             title: const Text(' My Profile '),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Profile()));
+                  MaterialPageRoute(builder: (context) =>  Profile()));
             },
           ),
           ListTile(

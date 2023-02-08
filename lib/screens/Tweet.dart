@@ -46,13 +46,18 @@ class Tweet extends StatelessWidget {
   }
 
   Widget tweetAvatar(BuildContext context) {
+    final homeNotifier = Provider.of<HomeProvider>(context);
     return Container(
       margin: const EdgeInsets.all(8.0),
       child: IconButton(
         iconSize: 45,
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const Profile()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>  Profile(
+                    profileId: homeNotifier.posts?[index].userId,
+                  )));
         },
         icon: CircleAvatar(
           backgroundImage: NetworkImage(avatar),

@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
             MyRoutes.loginRoute: (context) => const Login(),
             MyRoutes.registerRoute: (context) => const Register(),
             MyRoutes.homeRoute: (context) => const Home(),
-            MyRoutes.profileRoute: (context) => const Profile(),
+            MyRoutes.profileRoute: (context) =>  Profile(),
             MyRoutes.followersRoute: (context) => const Followers(),
             MyRoutes.followingsRoute: (context) => const Following(),
           }),

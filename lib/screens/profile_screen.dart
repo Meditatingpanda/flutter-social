@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoppingapp/providers/home_provider.dart';
 import 'package:shoppingapp/screens/Tweet.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
-class Profile extends StatelessWidget {
-  const Profile({super.key});
+class Profile extends StatefulWidget {
+  final String? profileId;
+  const Profile({Key? key, this.profileId}) : super(key: key);
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final homeNotifier = Provider.of<HomeProvider>(context, listen: false);
+      await homeNotifier.fetchUserData(widget.profileId!);
+      await homeNotifier.fetchProfilePosts(widget.profileId!);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    //  print(widget.profileId);
+    final homeNotifier = Provider.of<HomeProvider>(context, listen: true);
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -22,10 +43,12 @@ class Profile extends StatelessWidget {
                     height: 200.0,
                     // color: Colors.orange,
                     child: Center(
-                      child: Image.asset(
-                        'assets/images/cat.png',
+                      child: Image.network(
+                        homeNotifier.user?.coverPicture ??
+                            'https://beebom.com/wp-content/uploads/2022/10/Where-to-Watch-Chainsaw-Man-Anime.jpg?w=750&quality=75',
                         fit: BoxFit.cover,
                         height: 200,
+                        width: MediaQuery.of(context).size.width,
                       ),
                     ),
                   ),
@@ -33,23 +56,29 @@ class Profile extends StatelessWidget {
                     height: 200,
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return  Tweet(
-                          index: index,
-                          avatar:
-                              'https://pbs.twimg.com/profile_images/1604830369718509568/-UJI_bRL_400x400.jpg',
-                          username: 'Gyana Ranjan',
-                          name: 'MeditatingPanda',
-                          timeAgo: '12m',
-                          text: 'Give Up on Your Dreams, and die',
-                          comments: '46',
-                          retweets: '4K',
-                          favorites: 0,
-                        );
-                      },
-                    ),
+                    child: homeNotifier.profilePosts == null
+                        ? const Center(child: CircularProgressIndicator())
+                        : ListView.builder(
+                            itemCount: homeNotifier.profilePosts?.length,
+                            itemBuilder: (context, index) {
+                              return Tweet(
+                                index: index,
+                                avatar: homeNotifier.user?.profilePicture ?? '',
+                                username: homeNotifier.user?.username ?? '',
+                                name: homeNotifier.user?.email ?? '',
+                                timeAgo: timeago.format(homeNotifier
+                                        .profilePosts?[index].createdAt ??
+                                    DateTime.now()),
+                                text: homeNotifier.profilePosts?[index].desc ??
+                                    '',
+                                comments: '46',
+                                retweets: '4K',
+                                favorites: homeNotifier
+                                        .profilePosts?[index].likes.length ??
+                                    0,
+                              );
+                            },
+                          ),
                   )
                 ],
               ),
@@ -82,6 +111,7 @@ class Profile extends StatelessWidget {
 //profile details components
 
 Widget profileDetails(BuildContext context) {
+  final homeNotifier = Provider.of<HomeProvider>(context, listen: true);
   return Container(
     color: Colors.white,
     width: MediaQuery.of(context).size.width,
@@ -99,10 +129,25 @@ Widget profileDetails(BuildContext context) {
                 width: 80.0,
                 decoration: const BoxDecoration(
                     shape: BoxShape.circle, color: Colors.lightBlue),
-                child: const Center(
+                child: Center(
                     child: CircleAvatar(
-                  radius: 37.0,
-                  backgroundImage: AssetImage('assets/images/cat.png'),
+                  radius: 34.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: NetworkImage(homeNotifier.user?.profilePicture ??
+                            'https://i.pinimg.com/originals/cb/00/35/cb003519395b56d948f9e43067ff770f.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    // child: Image.network(
+                    //   homeNotifier.user?.profilePicture ?? '',
+                    // ),
+                  ),
+
+                  //backgroundImage: ,
+                  // backgroundImage: Image.network(homeNotifier.user?.profilePicture),
                 )),
               ),
               TextButton(
@@ -132,13 +177,13 @@ Widget profileDetails(BuildContext context) {
                   child: const Text('Edit Profile')),
             ],
           ),
-          const Text('Gyana Ranjan Panda',
-              style: TextStyle(
+          Text(homeNotifier.user?.username ?? '',
+              style: const TextStyle(
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
               )),
-          const Text('@meditatingpanda',
-              style: TextStyle(
+          Text(homeNotifier.user?.email ?? '',
+              style: const TextStyle(
                 fontSize: 13.0,
                 fontWeight: FontWeight.w300,
               )),
@@ -150,8 +195,8 @@ Widget profileDetails(BuildContext context) {
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
               )),
-          const Text(
-            "Frontend Intern @tweepsbookcom ,Ex-Intern at FelvinSearch,20🧑‍💻 JavaScript Developer Tweets About Web Development & My Learning Journeys || CSE Undergrad",
+          Text(
+            homeNotifier.user?.desc ?? '',
           ),
           const SizedBox(
             height: 10.0,
@@ -199,16 +244,16 @@ Widget profileDetails(BuildContext context) {
           ),
           Row(
             children: [
-              Row(children: const [
-                Text('1,000',
-                    style: TextStyle(
+              Row(children: [
+                Text(homeNotifier.user?.following.length.toString() ?? 'null',
+                    style: const TextStyle(
                       fontSize: 15.0,
                       fontWeight: FontWeight.w500,
                     )),
-                SizedBox(
+                const SizedBox(
                   width: 5.0,
                 ),
-                Text('Following',
+                const Text('Following',
                     style: TextStyle(
                       fontSize: 13.0,
                       fontWeight: FontWeight.w300,
@@ -217,16 +262,16 @@ Widget profileDetails(BuildContext context) {
               const SizedBox(
                 width: 20.0,
               ),
-              Row(children: const [
-                Text('1M',
-                    style: TextStyle(
+              Row(children: [
+                Text(homeNotifier.user?.followers.length.toString() ?? 'null',
+                    style: const TextStyle(
                       fontSize: 15.0,
                       fontWeight: FontWeight.w500,
                     )),
-                SizedBox(
+                const SizedBox(
                   width: 5.0,
                 ),
-                Text('Followers',
+                const Text('Followers',
                     style: TextStyle(
                       fontSize: 13.0,
                       fontWeight: FontWeight.w300,

@@ -91,9 +91,10 @@ class _HomeState extends State<Home> {
                 onTap: () {
                   _drawerKey.currentState!.openDrawer();
                 },
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   radius: 15.0,
-                  backgroundImage: AssetImage('assets/images/cat.png'),
+                  backgroundImage:
+                      NetworkImage(homeNotifier.user?.profilePicture ?? ''),
                 ),
               )),
             ),
@@ -126,8 +127,7 @@ class _HomeState extends State<Home> {
                         itemCount: homeNotifier.posts?.length,
                         itemBuilder: (context, index) {
                           return Tweet(
-                            avatar:
-                               homeNotifier.posts?[index].profilePic??'',
+                            avatar: homeNotifier.posts?[index].profilePic ?? '',
                             username: homeNotifier.posts?[index].email ??
                                 'dummy name',
                             name: homeNotifier.posts?[index].username ??
@@ -146,7 +146,7 @@ class _HomeState extends State<Home> {
                         }),
                   ),
             ListView.builder(
-                itemCount: 5,
+                itemCount: 1,
                 itemBuilder: (context, index) {
                   return Tweet(
                     avatar:

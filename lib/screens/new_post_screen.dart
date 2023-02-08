@@ -11,8 +11,18 @@ class NewPost extends StatefulWidget {
 
 class _NewPostState extends State<NewPost> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final homeNotifier = Provider.of<HomeProvider>(context, listen: false);
+      await homeNotifier.fetchUserData(homeNotifier.currentUserId);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final homeNotifier = Provider.of<HomeProvider>(context, listen: true);
+    //  print(user?.email);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -27,14 +37,18 @@ class _NewPostState extends State<NewPost> {
         child: Column(
           children: [
             Row(
-              children: const [
+              children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/cat.png'),
+                  radius: 20,
+                  backgroundImage: NetworkImage(homeNotifier
+                          .user?.profilePicture ??
+                      'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
                 ),
-                SizedBox(width: 10),
-                Text('sussy baka'),
-                SizedBox(width: 10),
-                Text('@meditatingpanda', style: TextStyle(color: Colors.grey))
+                const SizedBox(width: 10),
+                Text(homeNotifier.user?.email ?? 'dummy@gmail.com'),
+                const SizedBox(width: 10),
+                Text("@${homeNotifier.user?.username}",
+                    style: const TextStyle(color: Colors.grey))
               ],
             ),
             const SizedBox(height: 15),
@@ -43,7 +57,6 @@ class _NewPostState extends State<NewPost> {
               autofocus: true,
               maxLines: 30,
               autocorrect: false,
-              
               controller: homeNotifier.desc,
               decoration: const InputDecoration(
                 border: InputBorder.none,
