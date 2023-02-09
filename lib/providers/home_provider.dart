@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingapp/api/api.dart';
+import 'package:shoppingapp/models/followers_model.dart';
+import 'package:shoppingapp/models/following_model.dart';
 import 'package:shoppingapp/models/posts_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shoppingapp/models/profile_model.dart';
@@ -11,6 +13,8 @@ import 'package:shoppingapp/screens/login_screen.dart';
 class HomeProvider with ChangeNotifier {
   List<PostsModel>? posts;
   List<ProfileUserModel>? profilePosts;
+  List<FollowingModel>? followings;
+  List<FollowersModel>? followers;
   UserModel? user;
   final TextEditingController desc = TextEditingController();
   late String currentUserId;
@@ -40,7 +44,7 @@ class HomeProvider with ChangeNotifier {
 
     posts = postsModelFromJson(res.body);
     posts!.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-
+    fetchUserData(currentUserId);
     notifyListeners();
   }
 
@@ -100,6 +104,7 @@ class HomeProvider with ChangeNotifier {
     });
     // print(res.body);
     user = userModelFromJson(res.body);
+
     notifyListeners();
   }
 
@@ -117,8 +122,44 @@ class HomeProvider with ChangeNotifier {
   }
 
   void fetchPostsUniversal() async {}
-  void fetchPostsFollowing() async {}
-  void fetchPostsFollowers() async {}
+  Future fetchPostsFollowing() async {
+    final pref = await SharedPreferences.getInstance();
+    var userData = jsonDecode(pref.getString('User')!);
+    setUserId(userData["_id"]);
+    final currentUser = {
+      "userId": userData["_id"],
+    };
+    final uri =
+        Uri.parse("${Api.BASE_URL}/users/${currentUser["userId"]}/following");
+    var res = await http.get(uri, headers: {
+      "Content-Type": "application/json",
+      "accept": "application/json",
+      "Access-Control-Allow-Origin": "https://confesso-2.web.app"
+    });
+    // print(res.body);
+    followings = followingModelFromJson(res.body);
+    notifyListeners();
+  }
+
+  Future fetchPostsFollowers() async {
+    final pref = await SharedPreferences.getInstance();
+    var userData = jsonDecode(pref.getString('User')!);
+    setUserId(userData["_id"]);
+    final currentUser = {
+      "userId": userData["_id"],
+    };
+    final uri =
+        Uri.parse("${Api.BASE_URL}/users/${currentUser["userId"]}/followers");
+    var res = await http.get(uri, headers: {
+      "Content-Type": "application/json",
+      "accept": "application/json",
+      "Access-Control-Allow-Origin": "https://confesso-2.web.app"
+    });
+    // print(res.body);
+    followers = followersModelFromJson(res.body);
+    notifyListeners();
+  }
+
   void followUser() async {}
   void logout(context) async {
     final pref = await SharedPreferences.getInstance();

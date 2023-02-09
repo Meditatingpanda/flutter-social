@@ -126,22 +126,32 @@ class _HomeState extends State<Home> {
                     child: ListView.builder(
                         itemCount: homeNotifier.posts?.length,
                         itemBuilder: (context, index) {
-                          return Tweet(
-                            avatar: homeNotifier.posts?[index].profilePic ?? '',
-                            username: homeNotifier.posts?[index].email ??
-                                'dummy name',
-                            name: homeNotifier.posts?[index].username ??
-                                'dummy name',
-                            timeAgo: timeago.format(
-                                homeNotifier.posts?[index].createdAt ??
-                                    DateTime.now()),
-                            text:
-                                homeNotifier.posts?[index].desc ?? 'dummy text',
-                            comments: '69',
-                            index: index,
-                            retweets: '23K',
-                            favorites:
-                                homeNotifier.posts?[index].likes.length ?? 0,
+                          return Column(
+                            children: [
+                              Tweet(
+                                avatar:
+                                    homeNotifier.posts?[index].profilePic ?? '',
+                                username: homeNotifier.posts?[index].username ??
+                                    'dummy name',
+                                name: homeNotifier.posts?[index].email ??
+                                    'dummy name',
+                                timeAgo: timeago.format(
+                                    homeNotifier.posts?[index].createdAt ??
+                                        DateTime.now()),
+                                text: homeNotifier.posts?[index].desc ??
+                                    'dummy text',
+                                comments: '69',
+                                index: index,
+                                retweets: '23K',
+                                favorites:
+                                    homeNotifier.posts?[index].likes.length ??
+                                        0,
+                              ),
+                              const Divider(
+                                height: 0,
+                                thickness: 1,
+                              ),
+                            ],
                           );
                         }),
                   ),

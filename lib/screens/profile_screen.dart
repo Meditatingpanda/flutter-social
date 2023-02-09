@@ -61,21 +61,31 @@ class _ProfileState extends State<Profile> {
                         : ListView.builder(
                             itemCount: homeNotifier.profilePosts?.length,
                             itemBuilder: (context, index) {
-                              return Tweet(
-                                index: index,
-                                avatar: homeNotifier.user?.profilePicture ?? '',
-                                username: homeNotifier.user?.username ?? '',
-                                name: homeNotifier.user?.email ?? '',
-                                timeAgo: timeago.format(homeNotifier
-                                        .profilePosts?[index].createdAt ??
-                                    DateTime.now()),
-                                text: homeNotifier.profilePosts?[index].desc ??
-                                    '',
-                                comments: '46',
-                                retweets: '4K',
-                                favorites: homeNotifier
-                                        .profilePosts?[index].likes.length ??
-                                    0,
+                              return Column(
+                                children: [
+                                  Tweet(
+                                    index: index,
+                                    avatar:
+                                        homeNotifier.user?.profilePicture ?? '',
+                                    username: homeNotifier.user?.username ?? '',
+                                    name: homeNotifier.user?.email ?? '',
+                                    timeAgo: timeago.format(homeNotifier
+                                            .profilePosts?[index].createdAt ??
+                                        DateTime.now()),
+                                    text: homeNotifier
+                                            .profilePosts?[index].desc ??
+                                        '',
+                                    comments: '46',
+                                    retweets: '4K',
+                                    favorites: homeNotifier.profilePosts?[index]
+                                            .likes.length ??
+                                        0,
+                                  ),
+                                  const Divider(
+                                    height: 0,
+                                    thickness: 1,
+                                  ),
+                                ],
                               );
                             },
                           ),
@@ -182,7 +192,7 @@ Widget profileDetails(BuildContext context) {
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
               )),
-          Text(homeNotifier.user?.email ?? '',
+          Text('@${homeNotifier.user?.email}',
               style: const TextStyle(
                 fontSize: 13.0,
                 fontWeight: FontWeight.w300,
@@ -203,17 +213,16 @@ Widget profileDetails(BuildContext context) {
           ),
           Row(children: [
             Row(
-              children:const [
-                 Icon(
+              children: const [
+                Icon(
                   Icons.calendar_month,
                   size: 15.0,
                 ),
-                 SizedBox(
+                SizedBox(
                   width: 5.0,
                 ),
-                Text(
-                    'Joined may 2021',
-                    style:  TextStyle(
+                Text('Joined may 2021',
+                    style: TextStyle(
                       fontSize: 13.0,
                       fontWeight: FontWeight.w300,
                     )),
