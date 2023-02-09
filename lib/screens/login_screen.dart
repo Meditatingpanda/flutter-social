@@ -50,7 +50,7 @@ class _LoginState extends State<Login> {
                       padding: const EdgeInsets.symmetric(horizontal: 35),
                       alignment: Alignment.centerLeft,
                       child: const Text(
-                        "Confesso",
+                        "TweepBox",
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,

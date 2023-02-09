@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
               ),
             ]),
             title: const Text(
-              "Confesso",
+              "TweepBox",
               style: TextStyle(fontSize: 18, color: Colors.black),
             ),
             leadingWidth: 35,
