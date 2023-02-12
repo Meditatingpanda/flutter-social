@@ -1,16 +1,14 @@
-# shoppingapp
 
-A new Flutter project.
+# TweepBox
 
-## Getting Started
+Your Friendly Neighborhood Chatter Box.
 
-This project is a starting point for a Flutter application.
+## Demo
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://user-images.githubusercontent.com/83230804/218279063-7994326f-b483-4c5d-a6ac-a133557cb5d1.mp4
+
+
+
+
