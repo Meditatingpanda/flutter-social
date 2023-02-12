@@ -29,13 +29,13 @@ class MyApp extends StatelessWidget {
           darkTheme: ThemeData(
             brightness: Brightness.dark,
           ),
-          initialRoute:  MyRoutes.loginRoute,
+          initialRoute: MyRoutes.getStartedRoute,
           routes: {
             MyRoutes.getStartedRoute: (context) => const BackgroundVideo(),
             MyRoutes.loginRoute: (context) => const Login(),
             MyRoutes.registerRoute: (context) => const Register(),
             MyRoutes.homeRoute: (context) => const Home(),
-            MyRoutes.profileRoute: (context) =>  Profile(),
+            MyRoutes.profileRoute: (context) => Profile(),
             MyRoutes.followersRoute: (context) => const Followers(),
             MyRoutes.followingsRoute: (context) => const Following(),
           }),

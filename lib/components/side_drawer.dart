@@ -7,6 +7,7 @@ import 'package:shoppingapp/screens/profile_screen.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class SideDrawer extends StatelessWidget {
                 style: const TextStyle(fontSize: 18, color: Colors.black),
               ),
               accountEmail: Text(
-                homeNotifier.user!.email,
+                '@${homeNotifier.user!.email}',
                 style: const TextStyle(color: Colors.black),
               ),
               currentAccountPictureSize: const Size.square(50),

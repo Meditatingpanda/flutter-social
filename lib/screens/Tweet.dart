@@ -55,9 +55,9 @@ class Tweet extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>  Profile(
-                    profileId: homeNotifier.posts?[index].userId,
-                  )));
+                  builder: (context) => Profile(
+                        profileId: homeNotifier.posts?[index].userId,
+                      )));
         },
         icon: CircleAvatar(
           backgroundImage: NetworkImage(avatar),
@@ -72,7 +72,7 @@ class Tweet extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          tweetHeader(),
+          tweetHeader(context),
           tweetText(),
           tweetButtons(context),
         ],
@@ -80,7 +80,8 @@ class Tweet extends StatelessWidget {
     );
   }
 
-  Widget tweetHeader() {
+  Widget tweetHeader(context) {
+    final homeNotifier = Provider.of<HomeProvider>(context);
     return Row(
       children: [
         Container(
@@ -101,14 +102,16 @@ class Tweet extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        // IconButton(
-        //   icon: const Icon(
-        //     FontAwesomeIcons.angleDown,
-        //     size: 14.0,
-        //     color: Colors.grey,
-        //   ),
-        //   onPressed: () {},
-        // ),
+        IconButton(
+          icon: const Icon(
+            Icons.delete,
+            size: 14.0,
+            color: Colors.grey,
+          ),
+          onPressed: () {
+            homeNotifier.deletePost(index);
+          },
+        )
       ],
     );
   }
@@ -182,7 +185,7 @@ class Tweet extends StatelessWidget {
       child: icon == FontAwesomeIcons.heart
           ? LikeButton(
               size: 20,
-              isLiked: homeNotifier.checkIsLiked(index),
+              isLiked:  homeNotifier.checkIsLiked(index),
               likeCount: text,
               onTap: (isLiked) {
                 homeNotifier.likePost(index);

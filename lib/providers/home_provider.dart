@@ -87,8 +87,9 @@ class HomeProvider with ChangeNotifier {
   }
 
   bool checkIsLiked(int index) {
-    print(index);
-    if (posts![index].likes.contains(currentUserId)) {
+    //print(index);
+    if ((index < posts!.length) &&
+        posts![index].likes.contains(currentUserId)) {
       return true;
     } else {
       return false;
@@ -166,5 +167,29 @@ class HomeProvider with ChangeNotifier {
     pref.clear();
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const Login()));
+  }
+
+  Future deletePost(int index) async {
+    // print(posts![index].id);
+    final uri = Uri.parse("${Api.BASE_URL}/posts/${posts![index].id}");
+    var res = await http.delete(uri,
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json",
+          "Access-Control-Allow-Origin": "https://confesso-2.web.app"
+        },
+        body: jsonEncode({
+          "userId": currentUserId,
+        }));
+    // print(res);
+    fetchPosts();
+  }
+
+  bool checkIsPossibleToDelete(int index) {
+    if (posts![index].userId == currentUserId) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

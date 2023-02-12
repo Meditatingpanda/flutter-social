@@ -74,7 +74,7 @@ class LoginWidget extends StatelessWidget {
             height: 100,
           ),
           const Text(
-            'Confesso',
+            'TweepBox',
             style: TextStyle(
               color: Colors.white,
               fontSize: 50,
@@ -84,7 +84,7 @@ class LoginWidget extends StatelessWidget {
             height: 20,
           ),
           const Text(
-            'Confess your secrets anonymously',
+            'Your Friendly Neighborhood Chatter Box',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -96,7 +96,7 @@ class LoginWidget extends StatelessWidget {
           OutlinedButton(
               onPressed: () {
                 Navigator.push(context,
-                     MaterialPageRoute(builder: (context) => const Login()));
+                    MaterialPageRoute(builder: (context) => const Login()));
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.white),

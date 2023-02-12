@@ -45,9 +45,9 @@ class _NewPostState extends State<NewPost> {
                       'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
                 ),
                 const SizedBox(width: 10),
-                Text(homeNotifier.user?.email ?? 'dummy@gmail.com'),
+                Text(homeNotifier.user?.username ?? 'dummy@gmail.com'),
                 const SizedBox(width: 10),
-                Text("@${homeNotifier.user?.username}",
+                Text("@${homeNotifier.user?.email}",
                     style: const TextStyle(color: Colors.grey))
               ],
             ),

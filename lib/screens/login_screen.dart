@@ -74,8 +74,8 @@ class _LoginState extends State<Login> {
                           children: [
                             TextFormField(
                               decoration: const InputDecoration(
-                                hintText: 'Enter Email',
-                                labelText: 'Email',
+                                hintText: 'Enter Username',
+                                labelText: 'Username',
                               ),
                               controller: value.email,
                               validator: (value) {
